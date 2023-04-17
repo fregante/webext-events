@@ -66,8 +66,8 @@
 	"targets": {
 		"main": false,
 		"default": {
-			"source": "./demo/src/manifest.json",
-			"distDir": "./demo/dist",
+			"source": "./source/demo/manifest.json",
+			"distDir": "./.built/demo",
 			"sourceMap": {
 				"inline": true
 			},
@@ -75,6 +75,6 @@
 		}
 	},
 	"webExt": {
-		"sourceDir": "demo/dist"
+		"sourceDir": ".built/demo"
 	}
 }

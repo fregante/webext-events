@@ -5,7 +5,7 @@ type RemovableEvent<T = (...args: unknown[]) => unknown> = {
 
 export async function oneEvent<
 	Event extends RemovableEvent,
-	Filter extends (..._arguments: unknown[]) => boolean,
+	Filter extends (..._arguments: any[]) => boolean,
 >(event: Event, filter?: Filter): Promise<void> {
 	await new Promise<void>(resolve => {
 		const listener = (..._arguments: unknown[]) => {

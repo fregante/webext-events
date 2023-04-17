@@ -17,7 +17,7 @@ It also supports filtering:
 import {oneEvent} from 'webext-events';
 
 // Wait until the user opens a new tab, but it has it be HTTPS
-await oneEvent(chrome.tabs.onCreated, (tab) => tab.url.startsWith('https'));
+await oneEvent(chrome.tabs.onCreated, (tab) => tab.pendingUrl?.startsWith('https'));
 
 console.log('Hurray, a new HTTPS tab was created')
 ```

@@ -2,9 +2,9 @@
 	"name": "webext-events",
 	"version": "0.0.0",
 	"manifest_version": 3,
-	"permissions": ["storage"],
+	"permissions": ["storage", "tabs"],
 	"background": {
-		"service_worker": "background.js",
+		"service_worker": "background.ts",
 		"type": "module"
 	}
 }

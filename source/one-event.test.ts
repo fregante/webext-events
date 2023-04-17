@@ -63,7 +63,6 @@ describe('oneEvent', () => {
 		expect(chrome.runtime.onMessage.hasListeners()).toBe(false);
 		const eventPromise = oneEvent(
 			chrome.runtime.onMessage,
-			// @ts-expect-error One day I'll be good at typing callbacks
 			({greeting}) => greeting === 'sup',
 		);
 		expect(chrome.runtime.onMessage.hasListeners()).toBe(true);
