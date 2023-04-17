@@ -15,3 +15,4 @@ ponyfill.d.ts
 .parcel-cache
 dist
 distribution
+.built

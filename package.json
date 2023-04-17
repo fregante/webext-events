@@ -52,6 +52,7 @@
 		"@types/chrome": "^0.0.231",
 		"@types/jest": "^29.5.0",
 		"@types/sinon-chrome": "^2.2.11",
+		"jest-chrome": "^0.8.0",
 		"parcel": "2.8.3",
 		"sinon-chrome": "^3.0.1",
 		"typescript": "^5.0.4",
@@ -65,8 +66,8 @@
 	"targets": {
 		"main": false,
 		"default": {
-			"source": "./demo/src/manifest.json",
-			"distDir": "./demo/dist",
+			"source": "./source/demo/manifest.json",
+			"distDir": "./.built/demo",
 			"sourceMap": {
 				"inline": true
 			},
@@ -74,6 +75,6 @@
 		}
 	},
 	"webExt": {
-		"sourceDir": "demo/dist"
+		"sourceDir": ".built/demo"
 	}
 }
