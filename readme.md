@@ -21,6 +21,8 @@ This package (will) export various utilities, just import what you need.
 
 Not to be confused with `chrome.runtime.onStartup`, this event is actually called when _the extension_ starts. The native `onStartup` is not fired when the user manually disables and re-enables the extension.
 
+In event pages and service workers, the background file is loaded and unloaded automatically; This event will ensure that the specified listener is only ever run once per "extension start."
+
 Compatibility:
 
 - Chrome: 112+ (MV3 only)
@@ -33,7 +35,9 @@ Permissions:
 
 Context:
 
-- background
+- background worker
+- background page
+- event page
 
 ```js
 import {onExtensionStart} from 'webext-events';
