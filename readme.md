@@ -33,7 +33,9 @@ Permissions:
 
 Context:
 
-- background
+- background worker
+- background page
+- event page
 
 ```js
 import {onExtensionStart} from 'webext-events';

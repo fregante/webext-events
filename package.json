@@ -26,6 +26,8 @@
 	],
 	"scripts": {
 		"build": "tsc",
+		"demo:build": "parcel build --no-cache",
+		"demo:watch": "parcel watch --no-cache --no-hmr",
 		"prepack": "tsc --sourceMap false",
 		"test": "xo && tsc --noEmit && vitest run",
 		"test:watch": "vitest",
@@ -56,5 +58,23 @@
 		"typescript": "^5.0.4",
 		"vitest": "^0.30.1",
 		"xo": "^0.54.1"
+	},
+	"alias": {
+		"webext-events": "./source/index.ts",
+		"./source/**/*.js": "./source/$1/$2.ts"
+	},
+	"targets": {
+		"main": false,
+		"default": {
+			"source": "./demo/src/manifest.json",
+			"distDir": "./demo/dist",
+			"sourceMap": {
+				"inline": true
+			},
+			"optimize": false
+		}
+	},
+	"webExt": {
+		"sourceDir": "demo/dist"
 	}
 }

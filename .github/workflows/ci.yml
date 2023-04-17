@@ -17,13 +17,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: npm ci
-      - run: npm run build
+      - run: npm run prepack
+
+  Demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm ci
       - run: npm run demo:build
 
   Test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: sudo apt-get install xvfb
       - run: npm ci
-      - run: xvfb-run --auto-servernum npm run jest
+      - run: npx vitest
