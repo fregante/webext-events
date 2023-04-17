@@ -1,20 +1,50 @@
 
 import chrome from 'sinon-chrome';
-import {test, vi, assert} from 'vitest';
+import {describe, it, vi, expect} from 'vitest';
 import {onExtensionStart} from './on-extension-start.js';
 
-test('onExtensionStart', () => {
-	const listenerSpy = vi.fn();
-	const listenerSpy2 = vi.fn();
-	onExtensionStart.addListener(listenerSpy);
-	onExtensionStart.addListener(listenerSpy);
-	onExtensionStart.addListener(listenerSpy2);
-	assert.ok(chrome.runtime.onStartup.addListener.calledThrice, 'the internal listener should have been registered thrice (natively deduplicated)');
+const getMock = vi.fn().mockResolvedValue({});
 
-	onExtensionStart.removeListener(() => {}); // Unrelated
-	onExtensionStart.removeListener(listenerSpy);
-	assert.ok(chrome.runtime.onStartup.removeListener.notCalled, 'the internal listener should not have been unregistered yet');
+const sleep = async (ms: number) => new Promise(resolve => {
+	setTimeout(resolve, ms);
+});
 
-	onExtensionStart.removeListener(listenerSpy2);
-	assert.ok(chrome.runtime.onStartup.removeListener.calledOnce, 'the internal listener should have been unregistered');
+// @ts-expect-error - sinon-chrome hasn't been updated to support the new storage API
+chrome.storage.session = {
+	get: getMock,
+	set: vi.fn(),
+};
+
+describe('onExtensionStart', () => {
+	it('should register and run the listeners', async () => {
+		getMock.mockResolvedValue({});
+
+		const listenerSpy = vi.fn();
+		const listenerSpy2 = vi.fn();
+
+		onExtensionStart.addListener(listenerSpy);
+		onExtensionStart.addListener(listenerSpy);
+		onExtensionStart.addListener(listenerSpy2);
+
+		await sleep(100);
+
+		expect(listenerSpy).toHaveBeenCalledTimes(1);
+		expect(listenerSpy2).toHaveBeenCalledTimes(1);
+	});
+
+	it('should not run the listeners after the registration time window has closed', async () => {
+		const listenerSpy = vi.fn();
+		const listenerSpy2 = vi.fn();
+
+		await sleep(200);
+
+		onExtensionStart.addListener(listenerSpy);
+		onExtensionStart.addListener(listenerSpy);
+		onExtensionStart.addListener(listenerSpy2);
+
+		await sleep(100);
+
+		expect(listenerSpy).toHaveBeenCalledTimes(0);
+		expect(listenerSpy2).toHaveBeenCalledTimes(0);
+	});
 });
