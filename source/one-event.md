@@ -33,3 +33,7 @@ console.log('Hurray, a new HTTPS tab was created')
 ## Context
 
 - Any context
+
+## Related
+
+- [one-event](https://github.com/fregante/one-event) - The same thing, but for regular browser events.
