@@ -15,39 +15,9 @@ Or download the [standalone bundle](https://bundle.fregante.com/?pkg=webext-even
 
 ## Usage
 
-This package (will) export various utilities, just import what you need.
+This package exports various utilities, just import what you need.
 
-### onExtensionStart
-
-Not to be confused with `chrome.runtime.onStartup`, this event is actually called when _the extension_ starts. The native `onStartup` is not fired when the user manually disables and re-enables the extension.
-
-In event pages and service workers, the background file is loaded and unloaded automatically; This event will ensure that the specified listener is only ever run once per "extension start."
-
-Compatibility:
-
-- Chrome: 112+ (MV3 only)
-- Safari: 16.4
-- Firefox: no
-
-Permissions:
-
-- `storage` (due to [`chrome.storage.session`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/session) usage)
-
-Context:
-
-- background worker
-- background page
-- event page
-
-```js
-import {onExtensionStart} from 'webext-events';
-
-async function listener() {
-	await chrome.storage.local.set({started: Date.now()})
-}
-
-onExtensionStart.addListener(listener);
-```
+- [onExtensionStart](./source/on-extension-start.md)
 
 ## Related
 
