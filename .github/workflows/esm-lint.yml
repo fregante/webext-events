@@ -81,7 +81,7 @@ jobs:
       - run: echo "${{ env.IMPORT_TEXT }} '${{ env.NPM_MODULE_NAME }}'" > index.ts
       - run: |
           echo '{"extends":"@sindresorhus/tsconfig","files":["index.ts"]}' > tsconfig.json
-      - run: tsc index.ts
+      - run: tsc
       - run: cat index.js
   Node:
     runs-on: ubuntu-latest
