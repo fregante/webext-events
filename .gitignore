@@ -12,7 +12,6 @@ index.js
 index.d.ts
 ponyfill.js
 ponyfill.d.ts
-test/demo-extension/webext-events.js
 .parcel-cache
 dist
 distribution

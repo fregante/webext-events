@@ -19,6 +19,8 @@ This package (will) export various utilities, just import what you need.
 
 ### onExtensionStart
 
+Not to be confused with `chrome.runtime.onStartup`, this event is actually called when _the extension_ starts. The native `onStartup` is not fired when the user manually disables and re-enables the extension.
+
 Compatibility:
 
 - Chrome: 112+ (MV3 only)
@@ -45,6 +47,15 @@ onExtensionStart.addListener(listener);
 // It can also be removed
 onExtensionStart.removeListener(listener);
 ```
+
+## Related
+
+- [webext-tools](https://github.com/fregante/webext-tools) - Utility functions for Web Extensions.
+- [webext-content-scripts](https://github.com/fregante/webext-content-scripts) - Utility functions to inject content scripts in WebExtensions.
+- [webext-detect-page](https://github.com/fregante/webext-detect-page) - Detects where the current browser extension code is being run.
+- [webext-base-css](https://github.com/fregante/webext-base-css) - Extremely minimal stylesheet/setup for Web Extensions’ options pages (also dark mode)
+- [webext-options-sync](https://github.com/fregante/webext-options-sync) - Helps you manage and autosave your extension's options.
+- [More…](https://github.com/fregante/webext-fun)
 
 ## License
 
