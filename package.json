@@ -1,0 +1,82 @@
+{
+	"name": "webext-events",
+	"version": "0.0.0",
+	"description": "High-level events and utilities for events in Web Extensions",
+	"keywords": [
+		"browser",
+		"extension",
+		"chrome",
+		"firefox",
+		"safari",
+		"webextension",
+		"web-ext"
+	],
+	"repository": "fregante/webext-events",
+	"funding": "https://github.com/sponsors/fregante",
+	"license": "MIT",
+	"author": "Federico Brigante <me@fregante.com> (https://fregante.com)",
+	"type": "module",
+	"exports": "./distribution/index.js",
+	"main": "./distribution/index.js",
+	"types": "./distribution/index.d.ts",
+	"files": [
+		"distribution"
+	],
+	"scripts": {
+		"build": "tsc",
+		"demo:build": "parcel build --no-cache",
+		"demo:watch": "parcel watch --no-cache --no-hmr",
+		"prejest": "npm run demo:build",
+		"prepack": "tsc --sourceMap false",
+		"test": "xo && tsc --noEmit && npm run jest",
+		"test:watch": "npm run jest -- --watch",
+		"watch": "tsc --watch"
+	},
+	"xo": {
+		"envs": [
+			"browser"
+		],
+		"globals": [
+			"chrome"
+		],
+		"rules": {
+			"n/prefer-global/process": 0,
+			"@typescript-eslint/no-implicit-any-catch": 0,
+			"@typescript-eslint/no-empty-function": 0
+		}
+	},
+	"jest": {
+		"injectGlobals": false
+	},
+	"devDependencies": {
+		"@parcel/config-webextension": "2.8.3",
+		"@sindresorhus/tsconfig": "^3.0.1",
+		"@types/chrome": "^0.0.212",
+		"@types/jest": "^29.4.0",
+		"@types/sinon-chrome": "^2.2.11",
+		"jest-chrome": "^0.8.0",
+		"parcel": "2.8.3",
+		"sinon-chrome": "^3.0.1",
+		"typescript": "^4.9.5",
+		"vitest": "^0.30.1",
+		"xo": "^0.53.1"
+	},
+	"alias": {
+		"webext-events": "./source/index.ts",
+		"./source/**/*.js": "./source/$1/$2.ts"
+	},
+	"targets": {
+		"main": false,
+		"default": {
+			"source": "./test/demo-extension/manifest.json",
+			"distDir": "./test/dist",
+			"sourceMap": {
+				"inline": true
+			},
+			"optimize": false
+		}
+	},
+	"webExt": {
+		"sourceDir": "test/dist"
+	}
+}
