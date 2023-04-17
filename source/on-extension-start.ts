@@ -9,9 +9,13 @@ async function runner() {
 	}
 
 	await chrome.storage.session.set({[storageKey]: true});
+	hasRun = true;
 	for (const callback of startListeners) {
-		callback();
-		hasRun = true;
+		// Make sure that listeners don't break the chain
+		// eslint-disable-next-line func-names -- Call stack helper
+		setTimeout(function onExtensionStart() {
+			callback();
+		});
 	}
 }
 
