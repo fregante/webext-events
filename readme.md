@@ -47,9 +47,6 @@ async function listener() {
 }
 
 onExtensionStart.addListener(listener);
-
-// It can also be removed
-onExtensionStart.removeListener(listener);
 ```
 
 ## Related
