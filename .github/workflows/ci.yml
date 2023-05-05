@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
       - run: npm ci
       - run: npx xo
 
@@ -16,6 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
       - run: npm ci
       - run: npm run prepack
 
@@ -23,6 +29,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
       - run: npm ci
       - run: npm run demo:build
 
@@ -30,5 +39,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
       - run: npm ci
       - run: npx vitest
