@@ -1,33 +1,34 @@
 const storageKey = '__webext-events__startup';
-const startListeners = new Set<VoidCallback>();
+const event = new EventTarget();
 let hasRun = false;
+let hasListeners = false;
 
 async function runner() {
+	hasRun = true;
+
+	if (!hasListeners) {
+		return;
+	}
+
 	const storage = await chrome.storage.session.get(storageKey);
 	if (storageKey in storage) {
 		return;
 	}
 
 	await chrome.storage.session.set({[storageKey]: true});
-	hasRun = true;
-	for (const callback of startListeners) {
-		// Make sure that listeners don't break the chain
-		// eslint-disable-next-line func-names -- Call stack helper
-		setTimeout(function onExtensionStart() {
-			callback();
-		});
-	}
+	event.dispatchEvent(new Event('extension-start'));
 }
 
-export const onExtensionStart = {
+export const onExtensionStart = Object.freeze({
 	addListener(callback: VoidCallback) {
 		if (hasRun) {
 			console.warn('onExtensionStart.addListener() was called after the extension started. The callback will not be called.');
 		} else {
-			startListeners.add(callback);
+			hasListeners = true;
+			event.addEventListener('extension-start', callback);
 		}
 	},
-};
+});
 
 // Automatically register the runner
 setTimeout(runner, 100);
