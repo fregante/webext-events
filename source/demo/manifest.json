@@ -3,6 +3,10 @@
 	"version": "0.0.0",
 	"manifest_version": 3,
 	"permissions": ["storage", "tabs"],
+	"content_scripts": [{
+		"matches": ["<all_urls>"],
+		"js": ["on-content-script-invalidated.ts"]
+	}],
 	"background": {
 		"service_worker": "background.ts",
 		"type": "module"

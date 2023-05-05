@@ -29,7 +29,7 @@
 		"demo:build": "parcel build --no-cache",
 		"demo:watch": "parcel watch --no-cache --no-hmr",
 		"prepack": "tsc --sourceMap false",
-		"test": "xo && tsc --noEmit && vitest run",
+		"test": "tsc --noEmit && xo && vitest run",
 		"test:watch": "vitest",
 		"watch": "tsc --watch"
 	},
