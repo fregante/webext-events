@@ -17,6 +17,7 @@ Or download the [standalone bundle](https://bundle.fregante.com/?pkg=webext-even
 
 This package exports various utilities, just import what you need.
 
+- [onContextInvalidated](./source/on-context-invalidated.md)
 - [onExtensionStart](./source/on-extension-start.md)
 - [oneEvent](./source/one-event.md)
 

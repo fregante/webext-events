@@ -17,6 +17,12 @@ class OnContextInvalidated {
 		return this.#controller.signal;
 	}
 
+	get promise() {
+		return new Promise<void>(resolve => {
+			this.addListener(resolve);
+		});
+	}
+
 	addListener(callback: VoidCallback) {
 		if (this.signal.aborted) {
 			setTimeout(callback, 0);

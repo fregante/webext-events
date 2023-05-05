@@ -2,10 +2,7 @@
 import chrome from 'sinon-chrome';
 import {describe, it, vi, expect, beforeEach} from 'vitest';
 import {_testing as OnContextInvalidated, wasContextInvalidated} from './on-context-invalidated.js';
-
-const sleep = async (ms: number) => new Promise(resolve => {
-	setTimeout(resolve, ms);
-});
+import {sleep} from './test-utils.js';
 
 const unloadExtension = () => {
 	// @ts-expect-error -- Types only
@@ -70,5 +67,16 @@ describe('onContextInvalidated.signal', () => {
 		unloadExtension();
 		await sleep(400);
 		expect(onContextInvalidated.signal.aborted).toBe(true);
+	});
+});
+
+describe('onContextInvalidated.promise', () => {
+	it('should resolve after the unload', async () => {
+		const onContextInvalidated = new OnContextInvalidated();
+
+		await expect(onContextInvalidated.promise).toBePending();
+		unloadExtension();
+		await sleep(400);
+		await expect(onContextInvalidated.promise).not.toBePending();
 	});
 });
