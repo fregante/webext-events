@@ -14,6 +14,10 @@ async function listener() {
 }
 
 onContextInvalidated.addListener(listener);
+// or
+await onContextInvalidated.promise;
+// or
+fetch('/api', {signal: onContextInvalidated.signal})
 ```
 
 ## Compatibility
