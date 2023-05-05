@@ -4,6 +4,9 @@ Not to be confused with `chrome.runtime.onStartup`, this event is actually calle
 
 In event pages and service workers, the background file is loaded and unloaded automatically; This event will ensure that the specified listener is only ever run once per "extension start."
 
+> **Warning**
+> Chrome has [serious issues around the background service worker](https://bugs.chromium.org/p/chromium/issues/detail?id=1271154) so this might not work well for everyone.
+
 ```js
 import {onExtensionStart} from 'webext-events';
 
