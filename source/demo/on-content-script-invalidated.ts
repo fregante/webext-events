@@ -8,4 +8,4 @@ onContextInvalidated.signal.addEventListener('abort', () => {
 	console.warn('Context invalidated via abort signal');
 });
 
-console.log('Listening to context invalidation')
+console.log('Listening to context invalidation');
