@@ -3,14 +3,17 @@ type RemovableEvent<T = (...args: unknown[]) => unknown> = {
 	addListener(callback: T): void;
 };
 
+type EventParameters<Event extends RemovableEvent<(...args: any[]) => void>> = Parameters<Parameters<Event['addListener']>[0]>;
+
 export async function oneEvent<
 	Event extends RemovableEvent<(...args: any[]) => void>,
-	EventParameters extends Parameters<Parameters<Event['addListener']>[0]>[0],
-	Filter extends (parameters: EventParameters) => boolean,
->(event: Event, filter?: Filter): Promise<void> {
+>(
+	event: Event,
+	filter?: (...parameters: EventParameters<Event>) => boolean,
+): Promise<void> {
 	await new Promise<void>(resolve => {
-		const listener = (parameters: EventParameters) => {
-			if (!filter || filter(parameters)) {
+		const listener = (parameters: EventParameters<Event>) => {
+			if (!filter || filter(...parameters)) {
 				resolve();
 				event.removeListener(listener);
 			}
