@@ -1,5 +1,6 @@
 import {chrome} from 'jest-chrome';
-import {describe, it, vi, expect, beforeEach} from 'vitest';
+import {describe, it, vi, expect, beforeEach, expectTypeOf} from 'vitest';
+import {type Cookies, type Runtime} from 'jest-chrome/types/jest-chrome.js';
 import {oneEvent} from './one-event.js';
 
 function helloFromTheOtherSide(greeting = 'hello') {
@@ -43,5 +44,25 @@ describe('oneEvent', () => {
 		helloFromTheOtherSide('sup');
 
 		await expect(eventPromise).not.toBePending();
+	});
+
+	it('it should resolve original event\'s parameters', () => {
+		void oneEvent(chrome.tabs.onMoved, (tabId, moveInfo) => {
+			expectTypeOf(tabId).toEqualTypeOf<number>();
+			expectTypeOf(moveInfo).toEqualTypeOf<chrome.tabs.TabMoveInfo>();
+			return true;
+		});
+
+		void oneEvent(chrome.runtime.onMessage, (message, sender, sendResponse) => {
+			expectTypeOf(message).toEqualTypeOf<any>();
+			expectTypeOf(sender).toEqualTypeOf<Runtime.MessageSender>();
+			expectTypeOf(sendResponse).toEqualTypeOf<(response?: any) => void>();
+			return true;
+		});
+
+		void oneEvent(chrome.cookies.onChanged, changeInfo => {
+			expectTypeOf(changeInfo).toEqualTypeOf<Cookies.CookieChangeInfo>();
+			return true;
+		});
 	});
 });

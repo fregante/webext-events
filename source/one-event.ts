@@ -1,15 +1,24 @@
+type AnyFunction = (...parameters: any[]) => void;
+
 type RemovableEvent<T = (...args: unknown[]) => unknown> = {
 	removeListener(callback: T): void;
 	addListener(callback: T): void;
 };
 
+type EventParameters
+	<Event extends RemovableEvent<AnyFunction>> =
+		Parameters<Parameters<Event['addListener']>[0]>;
+
 export async function oneEvent<
-	Event extends RemovableEvent,
-	Filter extends (..._arguments: any[]) => boolean,
->(event: Event, filter?: Filter): Promise<void> {
+	Event extends RemovableEvent<AnyFunction>,
+>(
+	event: Event,
+	filter?: (...parameters: EventParameters<Event>) => boolean,
+): Promise<void> {
 	await new Promise<void>(resolve => {
-		const listener = (..._arguments: unknown[]) => {
-			if (!filter || filter(..._arguments)) {
+		// TODO: VoidFunction should not be necessary, it's equivalent to using "any"
+		const listener: VoidFunction = (...parameters: EventParameters<Event>) => {
+			if (!filter || filter(...parameters)) {
 				resolve();
 				event.removeListener(listener);
 			}
