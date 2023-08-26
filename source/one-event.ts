@@ -12,13 +12,13 @@ export async function oneEvent<
 	filter?: (...parameters: EventParameters<Event>) => boolean,
 ): Promise<void> {
 	await new Promise<void>(resolve => {
-		const listener = (parameters: EventParameters<Event>) => {
+		const listener = (...parameters: EventParameters<Event>) => {
 			if (!filter || filter(...parameters)) {
 				resolve();
-				event.removeListener(listener);
+				event.removeListener(listener as VoidCallback);
 			}
 		};
 
-		event.addListener(listener);
+		event.addListener(listener as VoidCallback);
 	});
 }
