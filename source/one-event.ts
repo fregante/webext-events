@@ -1,12 +1,16 @@
+type AnyFunction = (...parameters: any[]) => void;
+
 type RemovableEvent<T = (...args: unknown[]) => unknown> = {
 	removeListener(callback: T): void;
 	addListener(callback: T): void;
 };
 
-type EventParameters<Event extends RemovableEvent<(...args: any[]) => void>> = Parameters<Parameters<Event['addListener']>[0]>;
+type EventParameters
+	<Event extends RemovableEvent<AnyFunction>> =
+		Parameters<Parameters<Event['addListener']>[0]>;
 
 export async function oneEvent<
-	Event extends RemovableEvent<(...parameters: any[]) => void>,
+	Event extends RemovableEvent<AnyFunction>,
 >(
 	event: Event,
 	filter?: (...parameters: EventParameters<Event>) => boolean,
