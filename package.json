@@ -47,17 +47,17 @@
 		}
 	},
 	"devDependencies": {
-		"@parcel/config-webextension": "2.8.3",
-		"@sindresorhus/tsconfig": "^3.0.1",
-		"@types/chrome": "^0.0.231",
-		"@types/jest": "^29.5.0",
+		"@parcel/config-webextension": "^2.8.3",
+		"@sindresorhus/tsconfig": "^4.0.0",
+		"@types/chrome": "^0.0.246",
+		"@types/jest": "^29.5.4",
 		"@types/sinon-chrome": "^2.2.11",
 		"jest-chrome": "^0.8.0",
-		"parcel": "2.8.3",
+		"parcel": "^2.8.3",
 		"sinon-chrome": "^3.0.1",
-		"typescript": "^5.0.4",
-		"vitest": "^0.30.1",
-		"xo": "^0.54.1"
+		"typescript": "^5.2.2",
+		"vitest": "^0.34.4",
+		"xo": "^0.56.0"
 	},
 	"engines": {
 		"node": ">=18"
