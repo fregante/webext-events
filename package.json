@@ -47,13 +47,13 @@
 		}
 	},
 	"devDependencies": {
-		"@parcel/config-webextension": "^2.8.3",
+		"@parcel/config-webextension": "^2.9.3",
 		"@sindresorhus/tsconfig": "^4.0.0",
 		"@types/chrome": "^0.0.246",
 		"@types/jest": "^29.5.4",
 		"@types/sinon-chrome": "^2.2.11",
 		"jest-chrome": "^0.8.0",
-		"parcel": "^2.8.3",
+		"parcel": "^2.9.3",
 		"sinon-chrome": "^3.0.1",
 		"typescript": "^5.2.2",
 		"vitest": "^0.34.4",
@@ -61,10 +61,6 @@
 	},
 	"engines": {
 		"node": ">=18"
-	},
-	"alias": {
-		"webext-events": "./source/index.ts",
-		"./source/**/*.js": "./source/$1/$2.ts"
 	},
 	"targets": {
 		"main": false,
