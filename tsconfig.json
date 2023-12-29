@@ -5,9 +5,6 @@
 		"rootDir": "./source",
 		"outDir": "./distribution"
 	},
-	"paths": {
-		"webext-sandbox": ["./source/index.ts"]
-	},
 	"include": [
 		"source",
 	]
