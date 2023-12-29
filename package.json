@@ -62,9 +62,6 @@
 	"engines": {
 		"node": ">=18"
 	},
-	"alias": {
-		"webext-events": "./source/index.ts"
-	},
 	"targets": {
 		"main": false,
 		"default": {

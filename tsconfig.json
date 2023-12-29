@@ -3,7 +3,10 @@
 	"compilerOptions": {
 		"target": "ES2022",
 		"rootDir": "./source",
-		"outDir": "./distribution"
+		"outDir": "./distribution",
+		"paths": {
+			"webext-events": ["./source/index.ts"]
+		},
 	},
 	"include": [
 		"source",

@@ -1,0 +1,6 @@
+{
+	"type": "module",
+	"alias": {
+		"webext-events": "../index.ts"
+	}
+}
