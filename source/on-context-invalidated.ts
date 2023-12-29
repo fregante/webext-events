@@ -1,6 +1,6 @@
 class OnContextInvalidated {
-	#timer: NodeJS.Timer | undefined;
-	#controller = new AbortController();
+	#timer: NodeJS.Timeout | undefined;
+	readonly #controller = new AbortController();
 
 	get signal() {
 		if (this.#timer) {
