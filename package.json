@@ -48,15 +48,15 @@
 	},
 	"devDependencies": {
 		"@parcel/config-webextension": "^2.10.3",
-		"@sindresorhus/tsconfig": "^4.0.0",
-		"@types/chrome": "^0.0.246",
-		"@types/jest": "^29.5.4",
-		"@types/sinon-chrome": "^2.2.11",
+		"@sindresorhus/tsconfig": "^5.0.0",
+		"@types/chrome": "^0.0.254",
+		"@types/jest": "^29.5.11",
+		"@types/sinon-chrome": "^2.2.15",
 		"jest-chrome": "^0.8.0",
 		"parcel": "^2.10.3",
 		"sinon-chrome": "^3.0.1",
-		"typescript": "^5.2.2",
-		"vitest": "^0.34.4",
+		"typescript": "^5.3.3",
+		"vitest": "^1.1.0",
 		"xo": "^0.56.0"
 	},
 	"engines": {
