@@ -1,7 +1,10 @@
+type OptionsWithSignal = {signal?: AbortSignal};
+
 class OnContextInvalidated {
 	#timer: NodeJS.Timeout | undefined;
 	readonly #controller = new AbortController();
 
+	// Calling this will start the polling
 	get signal() {
 		if (this.#timer) {
 			return this.#controller.signal;
@@ -23,13 +26,18 @@ class OnContextInvalidated {
 		});
 	}
 
-	addListener(callback: VoidCallback) {
-		if (this.signal.aborted) {
+	/**
+	 *
+	 * @param callback         The function to call when the context is invalidated
+	 * @param options.signal   The signal to remove the listener, like with the regular `addEventListener()`
+	 */
+	addListener(callback: VoidCallback, {signal}: OptionsWithSignal = {}): void {
+		if (this.signal.aborted && !signal?.aborted) {
 			setTimeout(callback, 0);
 			return;
 		}
 
-		this.signal.addEventListener('abort', callback);
+		this.signal.addEventListener('abort', callback, {once: true, signal});
 	}
 }
 

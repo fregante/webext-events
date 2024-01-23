@@ -57,6 +57,21 @@ describe('onContextInvalidated', () => {
 		await sleep(100);
 		expect(listenerSpy2).toHaveBeenCalledTimes(1);
 	});
+	it('should remove the listeners when the listener signal is aborted', async () => {
+		const onContextInvalidated = new OnContextInvalidated();
+		const listenerSpy = vi.fn();
+		const listenerSpy2 = vi.fn();
+
+		onContextInvalidated.addListener(listenerSpy);
+		onContextInvalidated.addListener(listenerSpy2, {signal: AbortSignal.abort()});
+
+		unloadExtension();
+
+		await sleep(300);
+
+		expect(listenerSpy).toHaveBeenCalledTimes(1);
+		expect(listenerSpy2).not.toHaveBeenCalled();
+	});
 });
 
 describe('onContextInvalidated.signal', () => {
