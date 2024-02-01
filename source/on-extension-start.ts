@@ -1,3 +1,5 @@
+import {isChrome, isPersistentBackgroundPage} from 'webext-detect-page';
+
 const storageKey = '__webext-events__startup';
 const event = new EventTarget();
 let hasRun = false;
@@ -7,6 +9,23 @@ async function runner() {
 	hasRun = true;
 
 	if (!hasListeners) {
+		return;
+	}
+
+	if (isPersistentBackgroundPage()) {
+		// It's certainly the first and only time
+		event.dispatchEvent(new Event('extension-start'));
+		return;
+	}
+
+	if (!chrome.storage?.session) {
+		if (isChrome() && chrome.runtime.getManifest().manifest_version === 2) {
+			console.warn('onExtensionStart is unable to determine whether it’s being run for the first time on MV2 Event Pages in Chrome. It will run the listeners anyway.');
+		} else {
+			console.warn('onExtensionStart is unable to determine whether it’s being run for the first time without the `storage` permission. It will run the listeners anyway');
+		}
+
+		event.dispatchEvent(new Event('extension-start'));
 		return;
 	}
 

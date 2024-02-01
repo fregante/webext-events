@@ -78,5 +78,8 @@
 	},
 	"webExt": {
 		"sourceDir": ".built/demo"
+	},
+	"dependencies": {
+		"webext-detect-page": "^5.0.0"
 	}
 }
