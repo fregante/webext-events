@@ -5,6 +5,9 @@ const event = new EventTarget();
 let hasRun = false;
 let hasListeners = false;
 
+// @ts-expect-error No need to load `browser` types yet
+const browserStorage = globalThis.browser?.storage as typeof chrome.storage ?? chrome.storage;
+
 async function runner() {
 	hasRun = true;
 
@@ -18,7 +21,7 @@ async function runner() {
 		return;
 	}
 
-	if (!chrome.storage?.session) {
+	if (!browserStorage?.session) {
 		if (isChrome() && chrome.runtime.getManifest().manifest_version === 2) {
 			console.warn('onExtensionStart is unable to determine whether it’s being run for the first time on MV2 Event Pages in Chrome. It will run the listeners anyway.');
 		} else {
@@ -29,12 +32,12 @@ async function runner() {
 		return;
 	}
 
-	const storage = await chrome.storage.session.get(storageKey);
+	const storage = await browserStorage.session.get(storageKey);
 	if (storageKey in storage) {
 		return;
 	}
 
-	await chrome.storage.session.set({[storageKey]: true});
+	await browserStorage.session.set({[storageKey]: true});
 	event.dispatchEvent(new Event('extension-start'));
 }
 
