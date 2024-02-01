@@ -1,6 +1,6 @@
 {
 	"name": "webext-events",
-	"version": "2.2.1",
+	"version": "2.2.2",
 	"description": "High-level events and utilities for events in Web Extensions",
 	"keywords": [
 		"browser",
