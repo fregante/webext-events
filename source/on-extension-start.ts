@@ -5,10 +5,10 @@ const event = new EventTarget();
 let hasRun = false;
 let hasListeners = false;
 
-async function runner() {
-	// @ts-expect-error No need to load `browser` types yet
-	const browserStorage = globalThis.browser?.storage as typeof chrome.storage ?? chrome.storage;
+// @ts-expect-error No need to load `browser` types yet
+const browserStorage = globalThis.browser?.storage as typeof chrome.storage ?? globalThis.chrome?.storage;
 
+async function runner() {
 	hasRun = true;
 
 	if (!hasListeners) {
