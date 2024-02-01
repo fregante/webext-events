@@ -80,6 +80,6 @@
 		"sourceDir": ".built/demo"
 	},
 	"dependencies": {
-		"webext-detect-page": "^5.0.0"
+		"webext-detect-page": "^5.0.1"
 	}
 }

@@ -22,9 +22,9 @@ onExtensionStart.addListener(listener);
 
 ## Compatibility
 
-- Chrome: 112+ (MV3 only)
+- Chrome: 112+ (no MV2 Event Pages support)
 - Safari: 16.4
-- Firefox: no
+- Firefox: 115
 
 ## Permissions
 
@@ -34,4 +34,4 @@ onExtensionStart.addListener(listener);
 
 - background worker
 - background page
-- event page
+- event page (not in Chrome)
