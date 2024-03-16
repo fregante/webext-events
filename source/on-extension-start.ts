@@ -50,6 +50,9 @@ export const onExtensionStart = Object.freeze({
 			event.addEventListener('extension-start', callback);
 		}
 	},
+	removeListener(callback: VoidCallback) {
+		event.removeEventListener('extension-start', callback);
+	}
 });
 
 // Automatically register the runner
