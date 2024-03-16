@@ -1,7 +1,6 @@
 
 import chrome from 'sinon-chrome';
-import {describe, it, vi, expect} from 'vitest';
-import {onExtensionStart} from './on-extension-start.js';
+import {describe, it, vi, expect, beforeEach} from 'vitest';
 
 const getMock = vi.fn().mockResolvedValue({});
 
@@ -15,8 +14,15 @@ chrome.storage.session = {
 	set: vi.fn(),
 };
 
+// `onExtensionStart` has global state
+beforeEach(() => {
+	vi.resetModules();
+});
+
 describe('onExtensionStart', () => {
 	it('should register and run the listeners', async () => {
+		const {onExtensionStart} = await import('./on-extension-start.js');
+
 		getMock.mockResolvedValue({});
 
 		const listenerSpy = vi.fn();
@@ -33,6 +39,8 @@ describe('onExtensionStart', () => {
 	});
 
 	it('should not run the listeners after the registration time window has closed', async () => {
+		const {onExtensionStart} = await import('./on-extension-start.js');
+
 		const listenerSpy = vi.fn();
 		const listenerSpy2 = vi.fn();
 
