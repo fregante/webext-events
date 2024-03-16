@@ -55,4 +55,21 @@ describe('onExtensionStart', () => {
 		expect(listenerSpy).toHaveBeenCalledTimes(0);
 		expect(listenerSpy2).toHaveBeenCalledTimes(0);
 	});
+
+	it('should not run the listeners if they are removed', async () => {
+		const {onExtensionStart} = await import('./on-extension-start.js');
+
+		const listenerSpy = vi.fn();
+		const listenerSpy2 = vi.fn();
+
+		onExtensionStart.addListener(listenerSpy);
+		onExtensionStart.addListener(listenerSpy2);
+
+		onExtensionStart.removeListener(listenerSpy);
+
+		await sleep(100);
+
+		expect(listenerSpy).toHaveBeenCalledTimes(0);
+		expect(listenerSpy2).toHaveBeenCalledTimes(1);
+	});
 });
