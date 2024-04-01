@@ -17,9 +17,29 @@ It also supports filtering:
 import {oneEvent} from 'webext-events';
 
 // Wait until the user opens a new tab, but it has it be HTTPS
-await oneEvent(chrome.tabs.onCreated, (tab) => tab.pendingUrl?.startsWith('https'));
+await oneEvent(chrome.tabs.onCreated, {
+	filter: (tab) => tab.pendingUrl?.startsWith('https'),
+});
 
 console.log('Hurray, a new HTTPS tab was created')
+```
+
+And abort signals:
+
+```js
+import {oneEvent} from 'webext-events';
+
+// Wait until the user opens a new tab, but only for one second
+const timeout = AbortSignal.timeout(1000);
+await oneEvent(chrome.tabs.onCreated, {
+	signal: timeout,
+});
+
+if (timeout.aborted) {
+	console.log('No tab was created in time')
+} else {
+	console.log('Hurray, a new tab was created')
+}
 ```
 
 ## Compatibility

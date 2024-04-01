@@ -33,7 +33,7 @@ describe('oneEvent', () => {
 		expect(chrome.runtime.onMessage.hasListeners()).toBe(false);
 		const eventPromise = oneEvent(
 			chrome.runtime.onMessage,
-			({greeting}) => greeting === 'sup',
+			{filter: ({greeting}) => greeting === 'sup'},
 		);
 		expect(chrome.runtime.onMessage.hasListeners()).toBe(true);
 
@@ -47,22 +47,22 @@ describe('oneEvent', () => {
 	});
 
 	it('it should resolve original event\'s parameters', () => {
-		void oneEvent(chrome.tabs.onMoved, (tabId, moveInfo) => {
+		void oneEvent(chrome.tabs.onMoved, {filter(tabId, moveInfo) {
 			expectTypeOf(tabId).toEqualTypeOf<number>();
 			expectTypeOf(moveInfo).toEqualTypeOf<chrome.tabs.TabMoveInfo>();
 			return true;
-		});
+		}});
 
-		void oneEvent(chrome.runtime.onMessage, (message, sender, sendResponse) => {
+		void oneEvent(chrome.runtime.onMessage, {filter(message, sender, sendResponse) {
 			expectTypeOf(message).toEqualTypeOf<any>();
 			expectTypeOf(sender).toEqualTypeOf<Runtime.MessageSender>();
 			expectTypeOf(sendResponse).toEqualTypeOf<(response?: any) => void>();
 			return true;
-		});
+		}});
 
-		void oneEvent(chrome.cookies.onChanged, changeInfo => {
+		void oneEvent(chrome.cookies.onChanged, {filter(changeInfo) {
 			expectTypeOf(changeInfo).toEqualTypeOf<Cookies.CookieChangeInfo>();
 			return true;
-		});
+		}});
 	});
 });
