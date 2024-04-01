@@ -9,12 +9,20 @@ type EventParameters
 	<Event extends RemovableEvent<AnyFunction>> =
 		Parameters<Parameters<Event['addListener']>[0]>;
 
-export async function oneEvent<
-	Event extends RemovableEvent<AnyFunction>,
->(
+export async function oneEvent<Event extends RemovableEvent<AnyFunction>>(
 	event: Event,
-	filter?: (...parameters: EventParameters<Event>) => boolean,
+	{
+		filter,
+		signal,
+	}: {
+		filter?: (...parameters: EventParameters<Event>) => boolean;
+		signal?: AbortSignal;
+	} = {},
 ): Promise<void> {
+	if (signal?.aborted) {
+		return;
+	}
+
 	await new Promise<void>(resolve => {
 		// TODO: VoidFunction should not be necessary, it's equivalent to using "any"
 		const listener: VoidFunction = (...parameters: EventParameters<Event>) => {
@@ -25,5 +33,11 @@ export async function oneEvent<
 		};
 
 		event.addListener(listener);
+
+		// TODO: The abort listener is left behind if never aborted
+		signal?.addEventListener('abort', () => {
+			resolve();
+			event.removeListener(listener);
+		});
 	});
 }
