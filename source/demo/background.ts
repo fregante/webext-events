@@ -12,17 +12,19 @@ oneEvent(chrome.tabs.onCreated).then(() => {
 	console.log('Tab created');
 });
 
-oneEvent(chrome.tabs.onMoved, (tabId, moveInfo) => {
-	console.log('Should handle event?', {tabId, moveInfo});
-	return Boolean(tabId % 5);
-}).then(() => {
+oneEvent(chrome.tabs.onMoved, {
+	filter(tabId, moveInfo) {
+		console.log('Should handle event?', {tabId, moveInfo});
+		return Boolean(tabId % 5);
+	}}).then(() => {
 	console.log('Tab moved');
 });
 
 const httpsOnlyFilter = (tab: chrome.tabs.Tab) => Boolean(tab.pendingUrl?.startsWith('https'));
 oneEvent(
-	chrome.tabs.onCreated,
-	httpsOnlyFilter,
+	chrome.tabs.onCreated, {
+		filter: httpsOnlyFilter,
+	},
 ).then(() => {
 	console.log('HTTPS Tab created');
 });
