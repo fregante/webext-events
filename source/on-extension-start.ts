@@ -56,4 +56,4 @@ export const onExtensionStart = Object.freeze({
 });
 
 // Automatically register the runner
-setTimeout(runner, 100);
+setTimeout(runner, 2);
