@@ -1,6 +1,6 @@
 type AnyFunction = (...parameters: any[]) => void;
 
-type RemovableEvent<T = (...args: unknown[]) => unknown> = {
+type RemovableEvent<T = (...arguments_: unknown[]) => unknown> = {
 	removeListener(callback: T): void;
 	addListener(callback: T): void;
 };

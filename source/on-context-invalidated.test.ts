@@ -1,6 +1,8 @@
 
 import chrome from 'sinon-chrome';
-import {describe, it, vi, expect, beforeEach} from 'vitest';
+import {
+	describe, it, vi, expect, beforeEach,
+} from 'vitest';
 import {_testing as OnContextInvalidated, wasContextInvalidated} from './on-context-invalidated.js';
 import {sleep} from './test-utils.js';
 

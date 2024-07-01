@@ -1,5 +1,7 @@
 import {chrome} from 'jest-chrome';
-import {describe, it, vi, expect, beforeEach, expectTypeOf} from 'vitest';
+import {
+	describe, it, vi, expect, beforeEach, expectTypeOf,
+} from 'vitest';
 import {type Cookies, type Runtime} from 'jest-chrome/types/jest-chrome.js';
 import {oneEvent} from './one-event.js';
 
