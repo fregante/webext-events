@@ -1,6 +1,8 @@
 
 import chrome from 'sinon-chrome';
-import {describe, it, vi, expect, beforeEach} from 'vitest';
+import {
+	describe, it, vi, expect, beforeEach,
+} from 'vitest';
 
 const getMock = vi.fn().mockResolvedValue({});
 

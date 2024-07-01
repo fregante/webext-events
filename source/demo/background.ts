@@ -16,7 +16,8 @@ oneEvent(chrome.tabs.onMoved, {
 	filter(tabId, moveInfo) {
 		console.log('Should handle event?', {tabId, moveInfo});
 		return Boolean(tabId % 5);
-	}}).then(() => {
+	},
+}).then(() => {
 	console.log('Tab moved');
 });
 
