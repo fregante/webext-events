@@ -1,4 +1,4 @@
-import {isChrome, isPersistentBackgroundPage} from 'webext-detect-page';
+import {isChrome, isPersistentBackgroundPage} from 'webext-detect';
 
 const storageKey = '__webext-events__startup';
 const event = new EventTarget();
