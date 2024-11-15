@@ -18,16 +18,16 @@ export async function oneEvent<Event extends RemovableEvent<AnyFunction>>(
 		filter?: (...parameters: EventParameters<Event>) => boolean;
 		signal?: AbortSignal;
 	} = {},
-): Promise<void> {
+): Promise<EventParameters<Event> | void> {
 	if (signal?.aborted) {
 		return;
 	}
 
-	await new Promise<void>(resolve => {
+	return new Promise<EventParameters<Event> | void>(resolve => {
 		// TODO: VoidFunction should not be necessary, it's equivalent to using "any"
 		const listener: VoidFunction = (...parameters: EventParameters<Event>) => {
 			if (!filter || filter(...parameters)) {
-				resolve();
+				resolve(parameters);
 				event.removeListener(listener);
 			}
 		};
