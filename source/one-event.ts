@@ -1,5 +1,3 @@
-import {addListener} from './add-listener.js';
-
 type AnyFunction = (...parameters: any[]) => void;
 
 type RemovableEvent<T = (...arguments_: unknown[]) => unknown> = {
@@ -25,21 +23,21 @@ export async function oneEvent<Event extends RemovableEvent<AnyFunction>>(
 		return;
 	}
 
-	const controller = new AbortController();
-	const complete = controller.abort.bind(controller);
-	signal?.addEventListener('abort', complete, {once: true});
+	await new Promise<void>(resolve => {
+		// TODO: VoidFunction should not be necessary, it's equivalent to using "any"
+		const listener: VoidFunction = (...parameters: EventParameters<Event>) => {
+			if (!filter || filter(...parameters)) {
+				resolve();
+				event.removeListener(listener);
+			}
+		};
 
-	const listener = filter ? (...parameters: EventParameters<Event>) => {
-		if (filter(...parameters)) {
-			complete();
-		}
-	} : complete;
+		event.addListener(listener);
 
-	addListener(event, listener, {
-		signal: controller.signal,
-	});
-
-	await new Promise(resolve => {
-		controller.signal.addEventListener('abort', resolve, {once: true});
+		// TODO: The abort listener is left behind if never aborted
+		signal?.addEventListener('abort', () => {
+			resolve();
+			event.removeListener(listener);
+		});
 	});
 }
