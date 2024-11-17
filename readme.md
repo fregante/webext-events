@@ -17,17 +17,15 @@ Or download the [standalone bundle](https://bundle.fregante.com/?pkg=webext-even
 
 This package exports various utilities, just import what you need.
 
-- [onContextInvalidated](./source/on-context-invalidated.md)
-- [onExtensionStart](./source/on-extension-start.md)
-- [oneEvent](./source/one-event.md)
+- [onContextInvalidated](./source/on-context-invalidated.md) - Fires in content scripts when the extension is disabled, updated or reloaded.
+- [onExtensionStart](./source/on-extension-start.md) - Fires when the extension starts or is enabled. This is what yuou thought `chrome.runtime.onStartup` was for.
+- [oneEvent](./source/one-event.md) - Creates a promise that resolves when an event is received.
+- [addListener](./source/add-listener.md) - Like `.addEventListener` but with a `signal` to remove the listener.
 
 ## Related
 
 - [webext-tools](https://github.com/fregante/webext-tools) - Utility functions for Web Extensions.
 - [webext-content-scripts](https://github.com/fregante/webext-content-scripts) - Utility functions to inject content scripts in WebExtensions.
-- [webext-detect](https://github.com/fregante/webext-detect) - Detects where the current browser extension code is being run.
-- [webext-base-css](https://github.com/fregante/webext-base-css) - Extremely minimal stylesheet/setup for Web Extensions’ options pages (also dark mode)
-- [webext-options-sync](https://github.com/fregante/webext-options-sync) - Helps you manage and autosave your extension's options.
 - [More…](https://github.com/fregante/webext-fun)
 
 ## License
