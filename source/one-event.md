@@ -70,3 +70,5 @@ Note that the signal is aborted, the promise is resolved with `undefined` rather
 ## Related
 
 - [one-event](https://github.com/fregante/one-event) - The same thing, but for regular browser events.
+
+## [Main page ⏎](../readme.md)
