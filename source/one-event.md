@@ -11,6 +11,17 @@ await oneEvent(chrome.tabs.onCreated);
 console.log('Hurray, a new tab was created')
 ```
 
+It will return the parameters of the event:
+
+```js
+import {oneEvent} from 'webext-events';
+
+const [message, sender] = await oneEvent(chrome.runtime.onMessage);
+console.log('Message received:', message);
+console.log('Message sender:', sender);
+```
+
+
 It also supports filtering:
 
 ```js
@@ -41,6 +52,8 @@ if (timeout.aborted) {
 	console.log('Hurray, a new tab was created')
 }
 ```
+
+Note that the signal is aborted, the promise is resolved with `undefined` rather than with the event parameters array.
 
 ## Compatibility
 
