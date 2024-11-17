@@ -50,7 +50,7 @@ describe('oneEvent', () => {
 	});
 
 	it('it should resolve original event\'s parameters', () => {
-		void oneEvent(chrome.tabs.onMoved, {
+		const onMoved = oneEvent(chrome.tabs.onMoved, {
 			filter(tabId, moveInfo) {
 				expectTypeOf(tabId).toEqualTypeOf<number>();
 				expectTypeOf(moveInfo).toEqualTypeOf<chrome.tabs.TabMoveInfo>();
@@ -58,7 +58,9 @@ describe('oneEvent', () => {
 			},
 		});
 
-		void oneEvent(chrome.runtime.onMessage, {
+		expectTypeOf(onMoved).toEqualTypeOf<Promise<[number, chrome.tabs.TabMoveInfo] | void>>();
+
+		const onMessage = oneEvent(chrome.runtime.onMessage, {
 			filter(message, sender, sendResponse) {
 				expectTypeOf(message).toEqualTypeOf<any>();
 				expectTypeOf(sender).toEqualTypeOf<Runtime.MessageSender>();
@@ -67,11 +69,15 @@ describe('oneEvent', () => {
 			},
 		});
 
-		void oneEvent(chrome.cookies.onChanged, {
+		expectTypeOf(onMessage).toEqualTypeOf<Promise<[any, Runtime.MessageSender, (response?: any) => void] | void>>();
+
+		const onChanged = oneEvent(chrome.cookies.onChanged, {
 			filter(changeInfo) {
 				expectTypeOf(changeInfo).toEqualTypeOf<Cookies.CookieChangeInfo>();
 				return true;
 			},
 		});
+
+		expectTypeOf(onChanged).toEqualTypeOf<Promise<[Cookies.CookieChangeInfo] | void>>();
 	});
 });
