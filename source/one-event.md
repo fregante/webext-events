@@ -57,3 +57,5 @@ if (timeout.aborted) {
 ## Related
 
 - [one-event](https://github.com/fregante/one-event) - The same thing, but for regular browser events.
+
+## [Main page ⏎](../readme.md)

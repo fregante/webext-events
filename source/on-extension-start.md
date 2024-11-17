@@ -35,3 +35,5 @@ onExtensionStart.addListener(listener);
 - background worker
 - background page
 - event page (not in Chrome)
+
+## [Main page ⏎](../readme.md)

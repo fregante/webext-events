@@ -34,3 +34,5 @@ fetch('/api', {signal: onContextInvalidated.signal})
 - any context
 
 Some contexts like the background page/worker and standalone tabs will be closed by the browser automatically so the event doesn't apply there.
+
+## [Main page ⏎](../readme.md)
