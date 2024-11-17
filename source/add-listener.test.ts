@@ -1,5 +1,5 @@
 import {
-	describe, it, vi, expect,
+	describe, it, vi, expect, expectTypeOf,
 } from 'vitest';
 import {addListener} from './add-listener.js';
 
@@ -18,6 +18,13 @@ describe('addListener', () => {
 		controller.abort();
 
 		expect(event.removeListener).toHaveBeenCalledWith(listener);
+	});
+
+	it('should have the correct types', () => {
+		addListener(chrome.tabs.onMoved, (tabId, tab) => {
+			expectTypeOf(tabId).toEqualTypeOf<number>();
+			expectTypeOf(tab).toEqualTypeOf<chrome.tabs.TabMoveInfo>();
+		}, {signal: AbortSignal.timeout(1000)});
 	});
 });
 
