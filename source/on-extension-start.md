@@ -15,8 +15,7 @@ async function listener() {
 	await chrome.storage.local.set({started: Date.now()})
 }
 
-// Add the listener as soon as possible because the "onExtensionStart"
-// event happens around 100ms after 'webext-events' is loaded
+// Add the listener as soon as possible or else they'll miss the "onExtensionStart" event
 onExtensionStart.addListener(listener);
 ```
 
