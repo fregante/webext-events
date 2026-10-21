@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version-file: .nvmrc
+          node-version-file: package.json
       - run: npm ci
       - run: npx xo
 
@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version-file: .nvmrc
+          node-version-file: package.json
       - run: npm ci
       - run: npm run prepack
 
@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version-file: .nvmrc
+          node-version-file: package.json
       - run: npm ci
       - run: npm run demo:build
 
@@ -41,6 +41,6 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version-file: .nvmrc
+          node-version-file: package.json
       - run: npm ci
       - run: npx vitest
