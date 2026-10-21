@@ -7,7 +7,7 @@ These contexts however no longer have access to the messaging and storage APIs, 
 You can use this listener to gracefully disable the context and inform the user if necessary.
 
 ```js
-import {onContextInvalidated} from 'webext-events';
+import {onContextInvalidated} from 'webext-events/on-context-invalidated';
 
 async function listener() {
 	console.log('Extension was updated, turned off or reloaded');

@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/prefer-top-level-await -- Demo code */
 /* eslint-disable @typescript-eslint/no-floating-promises -- Demo code */
-import {onExtensionStart, oneEvent} from 'webext-events';
+import {onExtensionStart} from 'webext-events/on-extension-start';
+import {oneEvent} from 'webext-events/one-event';
 
 console.log('Background worker started');
 

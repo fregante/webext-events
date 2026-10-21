@@ -5,7 +5,7 @@ Utility method to add listeners to events and remove them when the signal is abo
 Currently this **requires** a `signal`. Without a `signal`, you should just use the native `addListener` method as this has no advantages over it.
 
 ```js
-import {addListener} from 'webext-events';
+import {addListener} from 'webext-events/add-listener';
 
 addListener(chrome.tabs.onCreated, (tab) => {
 	console.log('Hurray, a new tab was created')

@@ -11,8 +11,6 @@
 npm install webext-events
 ```
 
-Or download the [standalone bundle](https://bundle.fregante.com/?pkg=webext-events&name=webextEvents) to include in your `manifest.json`.
-
 ## Usage
 
 This package exports various utilities, just import what you need.
