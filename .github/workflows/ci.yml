@@ -8,39 +8,39 @@ jobs:
   Lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version-file: .nvmrc
+          node-version-file: package.json
       - run: npm ci
       - run: npx xo
 
   Build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version-file: .nvmrc
+          node-version-file: package.json
       - run: npm ci
       - run: npm run prepack
 
   Demo:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version-file: .nvmrc
+          node-version-file: package.json
       - run: npm ci
       - run: npm run demo:build
 
   Test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version-file: .nvmrc
+          node-version-file: package.json
       - run: npm ci
       - run: npx vitest

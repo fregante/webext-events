@@ -2,6 +2,7 @@
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
 		"rootDir": "./source",
+		"types": ["chrome"],
 		"outDir": "./distribution",
 		"paths": {
 			"webext-events": ["./source/index.ts"]

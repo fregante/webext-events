@@ -1,6 +1,11 @@
 import {chrome} from 'jest-chrome';
 import {
-	describe, it, vi, expect, beforeEach, expectTypeOf,
+	describe,
+	it,
+	vi,
+	expect,
+	beforeEach,
+	expectTypeOf,
 } from 'vitest';
 import {type Cookies, type Runtime} from 'jest-chrome/types/jest-chrome.js';
 import {oneEvent} from './one-event.js';
@@ -53,12 +58,12 @@ describe('oneEvent', () => {
 		const onMoved = oneEvent(chrome.tabs.onMoved, {
 			filter(tabId, moveInfo) {
 				expectTypeOf(tabId).toEqualTypeOf<number>();
-				expectTypeOf(moveInfo).toEqualTypeOf<chrome.tabs.TabMoveInfo>();
+				expectTypeOf(moveInfo).toEqualTypeOf<chrome.tabs.OnMovedInfo>();
 				return true;
 			},
 		});
 
-		expectTypeOf(onMoved).toEqualTypeOf<Promise<[number, chrome.tabs.TabMoveInfo] | void>>();
+		expectTypeOf(onMoved).toEqualTypeOf<Promise<[number, chrome.tabs.OnMovedInfo] | void>>();
 
 		const onMessage = oneEvent(chrome.runtime.onMessage, {
 			filter(message, sender, sendResponse) {

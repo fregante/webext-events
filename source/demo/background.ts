@@ -1,5 +1,5 @@
-/* eslint-disable unicorn/prefer-top-level-await */
-/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable unicorn/prefer-top-level-await -- Demo code */
+/* eslint-disable @typescript-eslint/no-floating-promises -- Demo code */
 import {onExtensionStart, oneEvent} from 'webext-events';
 
 console.log('Background worker started');
@@ -21,10 +21,10 @@ oneEvent(chrome.tabs.onMoved, {
 	console.log('Tab moved');
 });
 
-const httpsOnlyFilter = (tab: chrome.tabs.Tab) => Boolean(tab.pendingUrl?.startsWith('https'));
+const isHttpsOnly = (tab: chrome.tabs.Tab) => Boolean(tab.pendingUrl?.startsWith('https'));
 oneEvent(
 	chrome.tabs.onCreated, {
-		filter: httpsOnlyFilter,
+		filter: isHttpsOnly,
 	},
 ).then(() => {
 	console.log('HTTPS Tab created');
