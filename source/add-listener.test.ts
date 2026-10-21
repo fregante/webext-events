@@ -1,5 +1,9 @@
 import {
-	describe, it, vi, expect, expectTypeOf,
+	describe,
+	it,
+	vi,
+	expect,
+	expectTypeOf,
 } from 'vitest';
 import {addListener} from './add-listener.js';
 
@@ -23,7 +27,7 @@ describe('addListener', () => {
 	it('should have the correct types', () => {
 		addListener(chrome.tabs.onMoved, (tabId, tab) => {
 			expectTypeOf(tabId).toEqualTypeOf<number>();
-			expectTypeOf(tab).toEqualTypeOf<chrome.tabs.TabMoveInfo>();
+			expectTypeOf(tab).toEqualTypeOf<chrome.tabs.OnMovedInfo>();
 		}, {signal: AbortSignal.timeout(1000)});
 	});
 });

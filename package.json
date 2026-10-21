@@ -2,28 +2,19 @@
 	"name": "webext-events",
 	"version": "3.1.1",
 	"description": "High-level events and utilities for events in Web Extensions",
-	"keywords": [
-		"browser",
-		"extension",
-		"chrome",
-		"firefox",
-		"safari",
-		"webextension",
-		"onStartup",
-		"extension start event",
-		"web-ext"
-	],
+	"license": "MIT",
 	"repository": "fregante/webext-events",
 	"funding": "https://github.com/sponsors/fregante",
-	"license": "MIT",
 	"author": "Federico Brigante <me@fregante.com> (https://fregante.com)",
 	"type": "module",
-	"exports": "./distribution/index.js",
-	"main": "./distribution/index.js",
-	"types": "./distribution/index.d.ts",
-	"files": [
-		"distribution"
-	],
+	"exports": {
+		"types": "./distribution/index.d.ts",
+		"default": "./distribution/index.js"
+	},
+	"sideEffects": false,
+	"engines": {
+		"node": ">=24"
+	},
 	"scripts": {
 		"build": "tsc",
 		"demo:build": "parcel build --no-cache",
@@ -33,34 +24,35 @@
 		"test:watch": "vitest",
 		"watch": "tsc --watch"
 	},
-	"xo": {
-		"envs": [
-			"browser"
-		],
-		"globals": [
-			"chrome"
-		],
-		"rules": {
-			"n/prefer-global/process": 0,
-			"@typescript-eslint/no-implicit-any-catch": 0,
-			"@typescript-eslint/no-empty-function": 0
-		}
+	"files": [
+		"distribution"
+	],
+	"keywords": [
+		"browser",
+		"extension",
+		"chrome",
+		"firefox",
+		"safari",
+		"webextension",
+		"onstartup",
+		"extension start event",
+		"web-ext"
+	],
+	"dependencies": {
+		"webext-detect": "^6.0.0"
 	},
 	"devDependencies": {
-		"@parcel/config-webextension": "^2.13.3",
-		"@sindresorhus/tsconfig": "^7.0.0",
-		"@types/chrome": "^0.0.300",
-		"@types/jest": "^29.5.14",
-		"@types/sinon-chrome": "^2.2.15",
+		"@parcel/config-webextension": "^2.16.4",
+		"@sindresorhus/tsconfig": "^8.1.0",
+		"@types/chrome": "^0.3.5",
+		"@types/sinon-chrome": "^2.2.16",
+		"globals": "^17.13.0",
 		"jest-chrome": "^0.8.0",
-		"parcel": "^2.13.3",
+		"parcel": "^2.16.4",
 		"sinon-chrome": "^3.0.1",
-		"typescript": "^5.7.3",
-		"vitest": "^3.0.4",
-		"xo": "^0.60.0"
-	},
-	"engines": {
-		"node": ">=18"
+		"typescript": "^6.0.3",
+		"vitest": "^5.0.5",
+		"xo": "^5.0.1"
 	},
 	"targets": {
 		"main": false,
@@ -78,8 +70,5 @@
 	},
 	"webExt": {
 		"sourceDir": ".built/demo"
-	},
-	"dependencies": {
-		"webext-detect": "^5.3.2"
 	}
 }
