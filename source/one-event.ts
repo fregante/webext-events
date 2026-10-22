@@ -8,7 +8,7 @@ type RemovableEvent<T = (...arguments_: unknown[]) => unknown> = {
 type EventParameters<Event extends RemovableEvent<AnyFunction>> =
 	Parameters<Parameters<Event['addListener']>[0]>;
 
-export async function oneEvent<Event extends RemovableEvent<AnyFunction>>(
+export default async function oneEvent<Event extends RemovableEvent<AnyFunction>>(
 	event: Event,
 	{
 		filter,

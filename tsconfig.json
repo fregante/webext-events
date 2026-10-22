@@ -5,7 +5,7 @@
 		"types": ["chrome"],
 		"outDir": "./distribution",
 		"paths": {
-			"webext-events": ["./source/index.ts"]
+			"webext-events/*": ["./source/*.ts"]
 		},
 	},
 	"include": [

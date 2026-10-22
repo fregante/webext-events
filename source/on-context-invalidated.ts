@@ -46,7 +46,8 @@ class OnContextInvalidated {
 	}
 }
 
-export const onContextInvalidated = new OnContextInvalidated();
+const onContextInvalidated = new OnContextInvalidated();
+export default onContextInvalidated;
 export const wasContextInvalidated = () => chrome.runtime?.id === undefined;
 
 // This is done to ensure each listener and abortsignal are independent in each test

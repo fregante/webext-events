@@ -1,4 +1,4 @@
-import {onContextInvalidated} from 'webext-events';
+import onContextInvalidated from 'webext-events/on-context-invalidated';
 
 onContextInvalidated.addListener(() => {
 	console.warn('Context invalidated');
