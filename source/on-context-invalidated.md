@@ -23,7 +23,7 @@ fetch('/api', {signal: onContextInvalidated.signal})
 ## Compatibility
 
 - Browser: any browser
-- Manifest: MV2, MV3
+- Manifest: MV3
 
 ## Permissions
 
