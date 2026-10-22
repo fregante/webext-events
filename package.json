@@ -37,9 +37,6 @@
 		"extension start event",
 		"web-ext"
 	],
-	"dependencies": {
-		"webext-detect": "^6.0.0"
-	},
 	"devDependencies": {
 		"@parcel/config-webextension": "^2.16.4",
 		"@sindresorhus/tsconfig": "^8.1.0",
