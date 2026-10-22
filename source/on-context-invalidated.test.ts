@@ -6,6 +6,7 @@ import {
 	vi,
 	expect,
 	beforeEach,
+	afterEach,
 } from 'vitest';
 import {_testing as OnContextInvalidated, wasContextInvalidated} from './on-context-invalidated.js';
 import {sleep} from './test-utils.js';
@@ -99,5 +100,44 @@ describe('onContextInvalidated.promise', () => {
 		unloadExtension();
 		await sleep(400);
 		await expect(onContextInvalidated.promise).not.toBePending();
+	});
+});
+
+describe('onContextInvalidated in Safari', () => {
+	const getMock = vi.fn();
+
+	beforeEach(() => {
+		vi.useFakeTimers();
+		vi.stubGlobal('navigator', {userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15'});
+		getMock.mockReset().mockResolvedValue({});
+		vi.stubGlobal('chrome', {runtime: {id: 'my-lil-extension'}, storage: {local: {get: getMock}}});
+	});
+
+	afterEach(() => {
+		vi.useRealTimers();
+		vi.unstubAllGlobals();
+	});
+
+	it('should abort when `storage.local.get()` resolves to `undefined`, even if `runtime.id` is still set', async () => {
+		const onContextInvalidated = new OnContextInvalidated();
+		expect(onContextInvalidated.signal.aborted).toBe(false);
+
+		await vi.advanceTimersByTimeAsync(1000);
+		expect(onContextInvalidated.signal.aborted).toBe(false);
+
+		getMock.mockResolvedValue(undefined);
+		await vi.advanceTimersByTimeAsync(1000);
+		expect(onContextInvalidated.signal.aborted).toBe(true);
+	});
+
+	it('should not abort without the `storage` permission', async () => {
+		// Simulate the missing `storage` permission
+		vi.stubGlobal('chrome', {runtime: {id: 'my-lil-extension'}});
+
+		const onContextInvalidated = new OnContextInvalidated();
+		expect(onContextInvalidated.signal.aborted).toBe(false);
+
+		await vi.advanceTimersByTimeAsync(3000);
+		expect(onContextInvalidated.signal.aborted).toBe(false);
 	});
 });

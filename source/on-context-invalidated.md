@@ -28,6 +28,7 @@ fetch('/api', {signal: onContextInvalidated.signal})
 ## Permissions
 
 - none
+- `storage` (only in Safari, which doesn't unset `chrome.runtime.id`, so it's used to detect the invalidation instead)
 
 ## Context
 
