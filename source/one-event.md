@@ -3,7 +3,7 @@
 Utility method to capture a single event and resolve a promise after it's received:
 
 ```js
-import {oneEvent} from 'webext-events/one-event';
+import oneEvent from 'webext-events/one-event';
 
 // Wait until the user opens a new tab
 await oneEvent(chrome.tabs.onCreated);
@@ -14,7 +14,7 @@ console.log('Hurray, a new tab was created')
 It will return the arguments of the event:
 
 ```js
-import {oneEvent} from 'webext-events/one-event';
+import oneEvent from 'webext-events/one-event';
 
 const [message, sender] = await oneEvent(chrome.runtime.onMessage);
 console.log('Message received:', message);
@@ -25,7 +25,7 @@ console.log('Message sender:', sender);
 It also supports filtering:
 
 ```js
-import {oneEvent} from 'webext-events/one-event';
+import oneEvent from 'webext-events/one-event';
 
 // Wait until the user opens a new tab, but it has it be HTTPS
 await oneEvent(chrome.tabs.onCreated, {
@@ -38,7 +38,7 @@ console.log('Hurray, a new HTTPS tab was created')
 And abort signals:
 
 ```js
-import {oneEvent} from 'webext-events/one-event';
+import oneEvent from 'webext-events/one-event';
 
 // Wait until the user opens a new tab, but only for one second
 const timeout = AbortSignal.timeout(1000);

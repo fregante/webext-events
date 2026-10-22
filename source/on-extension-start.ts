@@ -40,7 +40,7 @@ async function runner() {
 	event.dispatchEvent(new Event('extension-start'));
 }
 
-export const onExtensionStart = Object.freeze({
+const onExtensionStart = Object.freeze({
 	addListener(callback: VoidCallback) {
 		if (hasRun) {
 			console.warn('onExtensionStart.addListener() was called after the extension started. The callback will not be called.');
@@ -53,6 +53,8 @@ export const onExtensionStart = Object.freeze({
 		event.removeEventListener('extension-start', callback);
 	},
 });
+
+export default onExtensionStart;
 
 // Automatically register the runner
 // eslint-disable-next-line unicorn/no-top-level-side-effects -- Must run on its own

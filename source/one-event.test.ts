@@ -8,7 +8,7 @@ import {
 	expectTypeOf,
 } from 'vitest';
 import {type Cookies, type Runtime} from 'jest-chrome/types/jest-chrome.js';
-import {oneEvent} from './one-event.js';
+import oneEvent from './one-event.js';
 
 function helloFromTheOtherSide(greeting = 'hello') {
 	chrome.runtime.onMessage.callListeners(

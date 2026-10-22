@@ -5,7 +5,7 @@ import {
 	expect,
 	expectTypeOf,
 } from 'vitest';
-import {addListener} from './add-listener.js';
+import addListener from './add-listener.js';
 
 describe('addListener', () => {
 	it('should remove the listener when the signal is aborted', () => {

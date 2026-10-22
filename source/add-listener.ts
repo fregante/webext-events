@@ -5,7 +5,7 @@ type RemovableEvent<T = (...arguments_: unknown[]) => unknown> = {
 	addListener(callback: T): void;
 };
 
-export function addListener<Event extends RemovableEvent<AnyFunction>>(
+export default function addListener<Event extends RemovableEvent<AnyFunction>>(
 	event: Event,
 	listener: (...parameters: Parameters<Parameters<Event['addListener']>[0]>) => void,
 	{

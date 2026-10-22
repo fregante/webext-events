@@ -27,7 +27,7 @@ beforeEach(() => {
 
 describe('onExtensionStart', () => {
 	it('should register and run the listeners', async () => {
-		const {onExtensionStart} = await import('./on-extension-start.js');
+		const {default: onExtensionStart} = await import('./on-extension-start.js');
 
 		getMock.mockResolvedValue({});
 
@@ -45,7 +45,7 @@ describe('onExtensionStart', () => {
 	});
 
 	it('should not run the listeners after the registration time window has closed', async () => {
-		const {onExtensionStart} = await import('./on-extension-start.js');
+		const {default: onExtensionStart} = await import('./on-extension-start.js');
 
 		const listenerSpy = vi.fn();
 		const listenerSpy2 = vi.fn();
@@ -63,7 +63,7 @@ describe('onExtensionStart', () => {
 	});
 
 	it('should not run the listeners if they are removed', async () => {
-		const {onExtensionStart} = await import('./on-extension-start.js');
+		const {default: onExtensionStart} = await import('./on-extension-start.js');
 
 		const listenerSpy = vi.fn();
 		const listenerSpy2 = vi.fn();
