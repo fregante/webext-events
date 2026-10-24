@@ -10,14 +10,14 @@ class OnContextInvalidated {
 			return this.#controller.signal;
 		}
 
-		this.#timer = setInterval(() => {
-			if (!wasContextInvalidated()) {
+		this.#timer = setInterval(async () => {
+			if (!wasContextInvalidated() && !await wasContextInvalidatedInSafari()) {
 				return;
 			}
 
 			this.#controller.abort();
 			clearInterval(this.#timer);
-		}, 200);
+		}, isSafari() ? 1000 : 200);
 
 		return this.#controller.signal;
 	}
@@ -49,6 +49,22 @@ class OnContextInvalidated {
 const onContextInvalidated = new OnContextInvalidated();
 export default onContextInvalidated;
 export const wasContextInvalidated = () => chrome.runtime?.id === undefined;
+
+const isSafari = () => navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome');
+
+// Safari doesn't unset `chrome.runtime.id`; `storage.local.get()` resolves to `undefined` instead (requires the `storage` permission)
+async function wasContextInvalidatedInSafari() {
+	if (!isSafari() || chrome.storage?.local === undefined) {
+		return false;
+	}
+
+	try {
+		const items: unknown = await chrome.storage.local.get('__webext-events__context-probe');
+		return items === undefined;
+	} catch {
+		return false;
+	}
+}
 
 // This is done to ensure each listener and abortsignal are independent in each test
 export const _testing = OnContextInvalidated;
