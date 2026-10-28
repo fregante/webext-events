@@ -7,8 +7,8 @@ import {
 	type TestContext,
 } from 'node:test';
 import chrome from 'sinon-chrome';
-import {_testing as OnContextInvalidated, wasContextInvalidated} from './on-context-invalidated.js';
-import {isPending, sleep} from './test-utils.js';
+import {_testing as OnContextInvalidated, wasContextInvalidated} from './on-context-invalidated.ts';
+import {isPending, sleep} from './testing-utils.ts';
 
 const unloadExtension = () => {
 	// @ts-expect-error -- Types only

@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import {describe, it, beforeEach} from 'node:test';
 import {chrome} from 'jest-chrome';
 import {expectTypeOf} from 'expect-type';
-import {type Cookies, type Runtime} from 'jest-chrome/types/jest-chrome.js';
-import oneEvent from './one-event.js';
-import {isPending} from './test-utils.js';
+import type {Cookies, Runtime} from 'jest-chrome/types/jest-chrome.js';
+import oneEvent from './one-event.ts';
+import {isPending} from './testing-utils.ts';
 
 function helloFromTheOtherSide(greeting = 'hello') {
 	chrome.runtime.onMessage.callListeners(

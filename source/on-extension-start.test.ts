@@ -5,7 +5,7 @@ import {
 	type TestContext,
 } from 'node:test';
 import chrome from 'sinon-chrome';
-import type onExtensionStartType from './on-extension-start.js';
+import type onExtensionStartType from './on-extension-start.ts';
 
 const sleep = async (ms: number) => new Promise(resolve => {
 	setTimeout(resolve, ms);
@@ -21,7 +21,7 @@ beforeEach(() => {
 
 // `onExtensionStart` has global state, so each test needs a fresh module
 let importCount = 0;
-const importFresh = async () => (await import(`./on-extension-start.js?${importCount++}`)) as {default: typeof onExtensionStartType};
+const importFresh = async () => (await import(`./on-extension-start.ts?${importCount++}`)) as {default: typeof onExtensionStartType};
 
 describe('onExtensionStart', () => {
 	it('should register and run the listeners', async (t: TestContext) => {

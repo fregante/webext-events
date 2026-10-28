@@ -1,6 +1,6 @@
 import {describe, it, type TestContext} from 'node:test';
 import {expectTypeOf} from 'expect-type';
-import addListener from './add-listener.js';
+import addListener from './add-listener.ts';
 
 describe('addListener', () => {
 	it('should remove the listener when the signal is aborted', (t: TestContext) => {

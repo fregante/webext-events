@@ -4,6 +4,7 @@
 		"rootDir": "./source",
 		"types": ["chrome", "node"],
 		"outDir": "./distribution",
+		"rewriteRelativeImportExtensions": true,
 		"paths": {
 			"webext-events/*": ["./source/*.ts"]
 		},
