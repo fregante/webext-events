@@ -15,10 +15,12 @@ const xoConfig = [
 		},
 	},
 	{
-		// Mocks (`vi.fn()`, `sinon`) return values in void callbacks
+		// Mocks (`mock.fn()`, `sinon`) return values in void callbacks
 		files: ['source/**/*.test.ts'],
 		rules: {
 			'@typescript-eslint/strict-void-return': 'off',
+			// `node:test` registers tests synchronously and returns promises
+			'@typescript-eslint/no-floating-promises': 'off',
 			// `test-utils.ts` is a helper, not a test file
 			'node-test/no-import-test-files': 'off',
 		},

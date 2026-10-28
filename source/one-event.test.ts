@@ -1,20 +1,16 @@
+import assert from 'node:assert/strict';
+import {describe, it, beforeEach} from 'node:test';
 import {chrome} from 'jest-chrome';
-import {
-	describe,
-	it,
-	vi,
-	expect,
-	beforeEach,
-	expectTypeOf,
-} from 'vitest';
+import {expectTypeOf} from 'expect-type';
 import {type Cookies, type Runtime} from 'jest-chrome/types/jest-chrome.js';
 import oneEvent from './one-event.js';
+import {isPending} from './test-utils.js';
 
 function helloFromTheOtherSide(greeting = 'hello') {
 	chrome.runtime.onMessage.callListeners(
 		{greeting}, // Message
 		{}, // MessageSender object
-		vi.fn(), // SendResponse function
+		() => {}, // SendResponse function
 	);
 }
 
@@ -24,36 +20,37 @@ describe('oneEvent', () => {
 	});
 
 	it('it should resolve when an event is received', async () => {
-		expect(chrome.runtime.onMessage.hasListeners()).toBe(false);
+		assert.equal(chrome.runtime.onMessage.hasListeners(), false);
 
 		const eventPromise = oneEvent(chrome.runtime.onMessage);
-		expect(chrome.runtime.onMessage.hasListeners()).toBe(true);
+		assert.equal(chrome.runtime.onMessage.hasListeners(), true);
 
-		await expect(eventPromise).toBePending();
+		assert.equal(await isPending(eventPromise), true);
 
 		helloFromTheOtherSide();
 
-		await expect(eventPromise).not.toBePending();
+		assert.equal(await isPending(eventPromise), false);
 	});
 
 	it('it should resolve when a specific event is received', async () => {
-		expect(chrome.runtime.onMessage.hasListeners()).toBe(false);
+		assert.equal(chrome.runtime.onMessage.hasListeners(), false);
 		const eventPromise = oneEvent(
 			chrome.runtime.onMessage, {
 				filter: ({greeting}) => greeting === 'sup',
 			},
 		);
-		expect(chrome.runtime.onMessage.hasListeners()).toBe(true);
+		assert.equal(chrome.runtime.onMessage.hasListeners(), true);
 
 		helloFromTheOtherSide();
 
-		await expect(eventPromise).toBePending();
+		assert.equal(await isPending(eventPromise), true);
 
 		helloFromTheOtherSide('sup');
 
-		await expect(eventPromise).not.toBePending();
+		assert.equal(await isPending(eventPromise), false);
 	});
 
+	// eslint-disable-next-line node-test/require-assertion -- Type-level test
 	it('it should resolve original event\'s parameters', () => {
 		const onMoved = oneEvent(chrome.tabs.onMoved, {
 			filter(tabId, moveInfo) {

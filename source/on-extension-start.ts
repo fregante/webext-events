@@ -44,5 +44,5 @@ const onExtensionStart = Object.freeze({
 export default onExtensionStart;
 
 // Automatically register the runner
-// eslint-disable-next-line unicorn/no-top-level-side-effects -- Must run on its own
+// eslint-disable-next-line unicorn/no-top-level-side-effects, @typescript-eslint/strict-void-return -- Must run on its own
 setTimeout(runner, 2);
