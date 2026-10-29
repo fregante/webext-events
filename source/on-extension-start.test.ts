@@ -1,38 +1,35 @@
-
-import chrome from 'sinon-chrome';
+/* eslint-disable @typescript-eslint/no-floating-promises -- `node:test` returns promises, fixed in a later xo */
 import {
 	describe,
 	it,
-	vi,
-	expect,
 	beforeEach,
-} from 'vitest';
-
-const getMock = vi.fn().mockResolvedValue({});
+	type TestContext,
+} from 'node:test';
+import chrome from 'sinon-chrome';
+import type onExtensionStartType from './on-extension-start.ts';
 
 const sleep = async (ms: number) => new Promise(resolve => {
 	setTimeout(resolve, ms);
 });
 
-// @ts-expect-error - sinon-chrome hasn't been updated to support the new storage API
-chrome.storage.session = {
-	get: getMock,
-	set: vi.fn(),
-};
-
-// `onExtensionStart` has global state
 beforeEach(() => {
-	vi.resetModules();
+	// @ts-expect-error - sinon-chrome hasn't been updated to support the new storage API
+	chrome.storage.session = {
+		get: async () => ({}),
+		set() {},
+	};
 });
 
+// `onExtensionStart` has global state, so each test needs a fresh module
+let importCount = 0;
+const importFresh = async () => (await import(`./on-extension-start.ts?${importCount++}`)) as {default: typeof onExtensionStartType};
+
 describe('onExtensionStart', () => {
-	it('should register and run the listeners', async () => {
-		const {default: onExtensionStart} = await import('./on-extension-start.js');
+	it('should register and run the listeners', async (t: TestContext) => {
+		const {default: onExtensionStart} = await importFresh();
 
-		getMock.mockResolvedValue({});
-
-		const listenerSpy = vi.fn();
-		const listenerSpy2 = vi.fn();
+		const listenerSpy = t.mock.fn();
+		const listenerSpy2 = t.mock.fn();
 
 		onExtensionStart.addListener(listenerSpy);
 		onExtensionStart.addListener(listenerSpy);
@@ -40,15 +37,15 @@ describe('onExtensionStart', () => {
 
 		await sleep(100);
 
-		expect(listenerSpy).toHaveBeenCalledTimes(1);
-		expect(listenerSpy2).toHaveBeenCalledTimes(1);
+		t.assert.strictEqual(listenerSpy.mock.callCount(), 1);
+		t.assert.strictEqual(listenerSpy2.mock.callCount(), 1);
 	});
 
-	it('should not run the listeners after the registration time window has closed', async () => {
-		const {default: onExtensionStart} = await import('./on-extension-start.js');
+	it('should not run the listeners after the registration time window has closed', async (t: TestContext) => {
+		const {default: onExtensionStart} = await importFresh();
 
-		const listenerSpy = vi.fn();
-		const listenerSpy2 = vi.fn();
+		const listenerSpy = t.mock.fn();
+		const listenerSpy2 = t.mock.fn();
 
 		await sleep(200);
 
@@ -58,15 +55,15 @@ describe('onExtensionStart', () => {
 
 		await sleep(100);
 
-		expect(listenerSpy).toHaveBeenCalledTimes(0);
-		expect(listenerSpy2).toHaveBeenCalledTimes(0);
+		t.assert.strictEqual(listenerSpy.mock.callCount(), 0);
+		t.assert.strictEqual(listenerSpy2.mock.callCount(), 0);
 	});
 
-	it('should not run the listeners if they are removed', async () => {
-		const {default: onExtensionStart} = await import('./on-extension-start.js');
+	it('should not run the listeners if they are removed', async (t: TestContext) => {
+		const {default: onExtensionStart} = await importFresh();
 
-		const listenerSpy = vi.fn();
-		const listenerSpy2 = vi.fn();
+		const listenerSpy = t.mock.fn();
+		const listenerSpy2 = t.mock.fn();
 
 		onExtensionStart.addListener(listenerSpy);
 		onExtensionStart.addListener(listenerSpy2);
@@ -75,7 +72,7 @@ describe('onExtensionStart', () => {
 
 		await sleep(100);
 
-		expect(listenerSpy).toHaveBeenCalledTimes(0);
-		expect(listenerSpy2).toHaveBeenCalledTimes(1);
+		t.assert.strictEqual(listenerSpy.mock.callCount(), 0);
+		t.assert.strictEqual(listenerSpy2.mock.callCount(), 1);
 	});
 });

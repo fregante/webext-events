@@ -1,59 +1,60 @@
-import {chrome} from 'jest-chrome';
-import {
-	describe,
-	it,
-	vi,
-	expect,
-	beforeEach,
-	expectTypeOf,
-} from 'vitest';
-import {type Cookies, type Runtime} from 'jest-chrome/types/jest-chrome.js';
-import oneEvent from './one-event.js';
+/* eslint-disable @typescript-eslint/no-floating-promises -- `node:test` returns promises, fixed in a later xo */
+import assert from 'node:assert/strict';
+import {describe, it, beforeEach} from 'node:test';
+import sinonChrome from 'sinon-chrome';
+import {expectTypeOf} from 'expect-type';
+import oneEvent from './one-event.ts';
+import {isPending} from './testing-utils.ts';
+
+const messageEvent = sinonChrome.runtime.onMessage as typeof sinonChrome.runtime.onMessage & typeof chrome.runtime.onMessage;
 
 function helloFromTheOtherSide(greeting = 'hello') {
-	chrome.runtime.onMessage.callListeners(
+	messageEvent.trigger(
 		{greeting}, // Message
 		{}, // MessageSender object
-		vi.fn(), // SendResponse function
+		() => {}, // SendResponse function
 	);
 }
 
 describe('oneEvent', () => {
 	beforeEach(() => {
-		chrome.runtime.onMessage.clearListeners();
+		messageEvent.removeListeners();
+		messageEvent.addListener.resetHistory();
+		messageEvent.removeListener.resetHistory();
 	});
 
 	it('it should resolve when an event is received', async () => {
-		expect(chrome.runtime.onMessage.hasListeners()).toBe(false);
+		assert.equal(messageEvent.addListener.called, false);
 
-		const eventPromise = oneEvent(chrome.runtime.onMessage);
-		expect(chrome.runtime.onMessage.hasListeners()).toBe(true);
+		const eventPromise = oneEvent(messageEvent);
+		assert.equal(messageEvent.addListener.calledOnce, true);
 
-		await expect(eventPromise).toBePending();
+		assert.equal(await isPending(eventPromise), true);
 
 		helloFromTheOtherSide();
 
-		await expect(eventPromise).not.toBePending();
+		assert.equal(await isPending(eventPromise), false);
 	});
 
 	it('it should resolve when a specific event is received', async () => {
-		expect(chrome.runtime.onMessage.hasListeners()).toBe(false);
+		assert.equal(messageEvent.addListener.called, false);
 		const eventPromise = oneEvent(
-			chrome.runtime.onMessage, {
+			messageEvent, {
 				filter: ({greeting}) => greeting === 'sup',
 			},
 		);
-		expect(chrome.runtime.onMessage.hasListeners()).toBe(true);
+		assert.equal(messageEvent.addListener.calledOnce, true);
 
 		helloFromTheOtherSide();
 
-		await expect(eventPromise).toBePending();
+		assert.equal(await isPending(eventPromise), true);
 
 		helloFromTheOtherSide('sup');
 
-		await expect(eventPromise).not.toBePending();
+		assert.equal(await isPending(eventPromise), false);
 	});
 
+	// eslint-disable-next-line node-test/require-assertion -- Type-level test
 	it('it should resolve original event\'s parameters', () => {
 		const onMoved = oneEvent(chrome.tabs.onMoved, {
 			filter(tabId, moveInfo) {
@@ -65,24 +66,24 @@ describe('oneEvent', () => {
 
 		expectTypeOf(onMoved).toEqualTypeOf<Promise<[number, chrome.tabs.OnMovedInfo] | void>>();
 
-		const onMessage = oneEvent(chrome.runtime.onMessage, {
+		const onMessagePromise = oneEvent(chrome.runtime.onMessage, {
 			filter(message, sender, sendResponse) {
 				expectTypeOf(message).toEqualTypeOf<any>();
-				expectTypeOf(sender).toEqualTypeOf<Runtime.MessageSender>();
+				expectTypeOf(sender).toEqualTypeOf<chrome.runtime.MessageSender>();
 				expectTypeOf(sendResponse).toEqualTypeOf<(response?: any) => void>();
 				return true;
 			},
 		});
 
-		expectTypeOf(onMessage).toEqualTypeOf<Promise<[any, Runtime.MessageSender, (response?: any) => void] | void>>();
+		expectTypeOf(onMessagePromise).toEqualTypeOf<Promise<[any, chrome.runtime.MessageSender, (response?: any) => void] | void>>();
 
 		const onChanged = oneEvent(chrome.cookies.onChanged, {
 			filter(changeInfo) {
-				expectTypeOf(changeInfo).toEqualTypeOf<Cookies.CookieChangeInfo>();
+				expectTypeOf(changeInfo).toEqualTypeOf<chrome.cookies.CookieChangeInfo>();
 				return true;
 			},
 		});
 
-		expectTypeOf(onChanged).toEqualTypeOf<Promise<[Cookies.CookieChangeInfo] | void>>();
+		expectTypeOf(onChanged).toEqualTypeOf<Promise<[chrome.cookies.CookieChangeInfo] | void>>();
 	});
 });

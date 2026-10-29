@@ -15,7 +15,7 @@ const xoConfig = [
 		},
 	},
 	{
-		// Mocks (`vi.fn()`, `sinon`) return values in void callbacks
+		// Mocks (`mock.fn()`, `sinon`) return values in void callbacks
 		files: ['source/**/*.test.ts'],
 		rules: {
 			'@typescript-eslint/strict-void-return': 'off',
