@@ -1,13 +1,15 @@
+/* eslint-disable @typescript-eslint/no-floating-promises -- `node:test` returns promises, fixed in a later xo */
 import assert from 'node:assert/strict';
 import {describe, it, beforeEach} from 'node:test';
-import {chrome} from 'jest-chrome';
+import sinonChrome from 'sinon-chrome';
 import {expectTypeOf} from 'expect-type';
-import type {Cookies, Runtime} from 'jest-chrome/types/jest-chrome.js';
 import oneEvent from './one-event.ts';
 import {isPending} from './testing-utils.ts';
 
+const messageEvent = sinonChrome.runtime.onMessage as typeof sinonChrome.runtime.onMessage & typeof chrome.runtime.onMessage;
+
 function helloFromTheOtherSide(greeting = 'hello') {
-	chrome.runtime.onMessage.callListeners(
+	messageEvent.trigger(
 		{greeting}, // Message
 		{}, // MessageSender object
 		() => {}, // SendResponse function
@@ -16,14 +18,16 @@ function helloFromTheOtherSide(greeting = 'hello') {
 
 describe('oneEvent', () => {
 	beforeEach(() => {
-		chrome.runtime.onMessage.clearListeners();
+		messageEvent.removeListeners();
+		messageEvent.addListener.resetHistory();
+		messageEvent.removeListener.resetHistory();
 	});
 
 	it('it should resolve when an event is received', async () => {
-		assert.equal(chrome.runtime.onMessage.hasListeners(), false);
+		assert.equal(messageEvent.addListener.called, false);
 
-		const eventPromise = oneEvent(chrome.runtime.onMessage);
-		assert.equal(chrome.runtime.onMessage.hasListeners(), true);
+		const eventPromise = oneEvent(messageEvent);
+		assert.equal(messageEvent.addListener.calledOnce, true);
 
 		assert.equal(await isPending(eventPromise), true);
 
@@ -33,13 +37,13 @@ describe('oneEvent', () => {
 	});
 
 	it('it should resolve when a specific event is received', async () => {
-		assert.equal(chrome.runtime.onMessage.hasListeners(), false);
+		assert.equal(messageEvent.addListener.called, false);
 		const eventPromise = oneEvent(
-			chrome.runtime.onMessage, {
+			messageEvent, {
 				filter: ({greeting}) => greeting === 'sup',
 			},
 		);
-		assert.equal(chrome.runtime.onMessage.hasListeners(), true);
+		assert.equal(messageEvent.addListener.calledOnce, true);
 
 		helloFromTheOtherSide();
 
@@ -62,24 +66,24 @@ describe('oneEvent', () => {
 
 		expectTypeOf(onMoved).toEqualTypeOf<Promise<[number, chrome.tabs.OnMovedInfo] | void>>();
 
-		const onMessage = oneEvent(chrome.runtime.onMessage, {
+		const onMessagePromise = oneEvent(chrome.runtime.onMessage, {
 			filter(message, sender, sendResponse) {
 				expectTypeOf(message).toEqualTypeOf<any>();
-				expectTypeOf(sender).toEqualTypeOf<Runtime.MessageSender>();
+				expectTypeOf(sender).toEqualTypeOf<chrome.runtime.MessageSender>();
 				expectTypeOf(sendResponse).toEqualTypeOf<(response?: any) => void>();
 				return true;
 			},
 		});
 
-		expectTypeOf(onMessage).toEqualTypeOf<Promise<[any, Runtime.MessageSender, (response?: any) => void] | void>>();
+		expectTypeOf(onMessagePromise).toEqualTypeOf<Promise<[any, chrome.runtime.MessageSender, (response?: any) => void] | void>>();
 
 		const onChanged = oneEvent(chrome.cookies.onChanged, {
 			filter(changeInfo) {
-				expectTypeOf(changeInfo).toEqualTypeOf<Cookies.CookieChangeInfo>();
+				expectTypeOf(changeInfo).toEqualTypeOf<chrome.cookies.CookieChangeInfo>();
 				return true;
 			},
 		});
 
-		expectTypeOf(onChanged).toEqualTypeOf<Promise<[Cookies.CookieChangeInfo] | void>>();
+		expectTypeOf(onChanged).toEqualTypeOf<Promise<[chrome.cookies.CookieChangeInfo] | void>>();
 	});
 });

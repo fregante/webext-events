@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises -- `node:test` returns promises, fixed in a later xo */
 import {
 	describe,
 	it,
